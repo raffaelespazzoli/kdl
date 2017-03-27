@@ -1,6 +1,6 @@
-# kdl
+# Kubernetes Deployment Language
 
-A notation to describe Kubernetes API objects
+KDL is notation to describe Kubernetes deployments using Kubernetes API objects.
 
 
 ## Introduction
@@ -21,7 +21,7 @@ a non-objective of this notation is:
 
 - To auto-generate API Objects definitions
 
-### color coding
+### Color Coding
 
 In general Kubernetes API objects cover the following areas:
 
@@ -32,8 +32,6 @@ In general Kubernetes API objects cover the following areas:
 | Networking  | Yellow  | Service  |  
 | Storage  | Blue  | Persistent Volume Claim, Persistent Volume  |    
  
-
-Here is the API object notation convention.
 
 ## Kubernetes cluster
 The Kubernetes cluster is simply represented as a rectangle:
@@ -70,10 +68,10 @@ On the bottom we have the cardinality of the instances of that pod. This field a
 
 | Type Of Controller  | Format |  
 |---|---|
-| Replication Controller  | a number or a range (ex 3 or 2:5)  | 
-| ReplicaSet  | a number or a range (ex 3 or 2:5)  |  
-| Deployment  | a number or a range (ex 3 or 2:5)  | 
-| DeploymentConfig (OpenShift only) | a number or a range (ex 3 or 2:5)  |
+| Replication Controller  | A number or a range (ex 3 or 2:5)  | 
+| ReplicaSet  | A number or a range (ex 3 or 2:5)  |  
+| Deployment  | A number or a range (ex 3 or 2:5)  | 
+| DeploymentConfig (OpenShift only) | A number or a range (ex 3 or 2:5)  |
 | DaemonSet  | The node selector: storage-node=true  |
 | StatefulSet  | A number: 3  |
 | Job  | A number representing the degree of parallelism: 3  |
