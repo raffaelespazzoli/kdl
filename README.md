@@ -1,19 +1,33 @@
 # kdl
 
-A notation to describe OpenShift API objects
+A notation to describe Kubernetes API objects
 
 
 ## Introduction
-The purpose of this document is to illustrate a notation for OpenShift API objects. Openshift API objects can be used to describe how a solution will be deployed in openshift.
-The idea is that if we can establish a common language to describe how applications are deployed this will simplify communications and speed app the app onboarding processes.
+The purpose of this document is to illustrate a notation for Kubernetes API objects. Kubernetes API objects can be used to describe how a solution will be deployed in Kubernetes.
+The idea is that if we can establish a common language to describe how applications are deployed this will simplify communications and speed up the app onboarding processes.
 
 To better explain the objective we can draw a parallel to UML, which had several languages to describe different aspects of an application architecture. A difference with UML is though that here we don’t try to create diagrams that can be used to generate API objects. So we have the opportunity to decide which pieces of information we want to show in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
 
-In general OpenShift API objects cover the following areas:
+### Objectives
+
+The objectives of this notation are the following:
+
+- To create a common graphical language to describe how applications are deployed in Kubernetes.
+- To represent the most architecturally relevant aspects of the Kubernetes API objects
+- To be simple, ideally one person with a whiteboard and some colored markers should be able to create these diagrams
+
+a non-objective of this notation is:
+
+- To auto-generate API Objects definitions
+
+### color coding
+
+In general Kubernetes API objects cover the following areas:
 
 | Area  | Color convention  | Example  |
 |---|---|---|
-| OpenShift Cluster  | Red  | The openshift cluster(s) involved in the solution  | 
+| Kubernetes Cluster  | Red  | The Kubernetes cluster(s) involved in the solution  | 
 | Compute  | Green  | Deployment  |  
 | Networking  | Yellow  | Service  |  
 | Storage  | Blue  | Persistent Volume Claim, Persistent Volume  |    
@@ -21,13 +35,15 @@ In general OpenShift API objects cover the following areas:
 
 Here is the API object notation convention.
 
-## OpenShift cluster
-The openshift cluster is simply represented as a rectangle:
+## Kubernetes cluster
+The Kubernetes cluster is simply represented as a rectangle:
 
 ![KubernetesCluster](media/kubernetes-template.png)
 
 All the other API object will live inside the cluster or at its edges.
-There should never be a need to call out individual nodes of an openshift cluster.
+There should never be a need to call out individual nodes of an Kubernetes cluster.
+
+Some solutions will need to be deployed partly inside and partly outside the cluster. This notation does not prescribe how object outside the cluster are represented.
 
 ## Compute 
 The compute objects are the most complex. In general they are represented by a rectangle with badges around it to show additional information. Here is a template:
@@ -44,7 +60,7 @@ On the left side of the pod we have additional compute information. The top badg
 | Replication Controller  | RC  | 
 | Replica Set  | RS  |   
 | Deployment  | D  |  
-| DeploymentConfig  | DC  | 
+| DeploymentConfig (OpenShift only)  | DC  | 
 | DaemonSet  | DS  |  
 | StatefulSet  | SS  |  
 | Job | J |
@@ -54,10 +70,10 @@ On the bottom we have the cardinality of the instances of that pod. This field a
 
 | Type Of Controller  | Format |  
 |---|---|
-| Replication Controller  | Can be : - a number if statically set: 3 - a range is controlled by a HPA: 2:5  | 
-| ReplicaSet  | Can be : - a number if statically set: 3 - a range is controlled by a HPA: 2:5  |  
-| Deployment  | Can be : - a number if statically set: 3 - a range is controlled by a HPA: 2:5  | 
-| DeploymentConfig  | Can be : - a number if statically set: 3 - a range is controlled by a HPA: 2:5  |
+| Replication Controller  | a number or a range (ex 3 or 2:5)  | 
+| ReplicaSet  | a number or a range (ex 3 or 2:5)  |  
+| Deployment  | a number or a range (ex 3 or 2:5)  | 
+| DeploymentConfig (OpenShift only) | a number or a range (ex 3 or 2:5)  |
 | DaemonSet  | The node selector: storage-node=true  |
 | StatefulSet  | A number: 3  |
 | Job  | A number representing the degree of parallelism: 3  |
@@ -82,7 +98,7 @@ On the right side of the pod with have volumes that pertain to the configuration
 
 
 ## Networking
-There are two types of networking objects: services and routes (or ingresses in kubernetes).
+There are two types of networking objects: services and ingresses.
 
 ### Services
 A service can be represented with an oval as in the following picture:
@@ -92,13 +108,13 @@ A service can be represented with an oval as in the following picture:
 On the left side there is a badge representing the type of service. Here are the possible abbreviations
 
 | Type  | Abbreviation  | 
-|---|---|---|---|
+|---|---|
 | Cluster IP  | CIP  | 
 | Cluster IP, ClusterIP: None  |  HS a.k.a. Headless Service | 
 | Node Port  | NP  | 
 | LoadBalancer |  LB |
 | External Name  | EN  |
-| External IP  |  EIP |  
+| External IP (OpenShift only) |  EIP |  
 
 
 At the top of the service there are the exposed ports. Same convention applies here as for the compute ports.
@@ -109,17 +125,21 @@ If a service is allows traffic from the outside of the cluster to internal pods 
 
 ![EdgeService](media/edge-service.png)
 
-Same concept applies to services that regulate outbound traffic (such as External Name), although in this case they would probably appear at the bottom of the openshift cluster rectangle.
+Same concept applies to services that regulate outbound traffic (such as External Name), although in this case they would probably appear at the bottom of the Kubernetes cluster rectangle.
 
-### Routes/Ingresses 
-Routes or Ingresses can be indicated with a parallelogram as in the following picture:
+### Ingresses 
+Ingresses can be indicated with a parallelogram as in the following picture:
 
 ![IngressTemplate](media/ingress-template.png)
 
 A route shows the route name and potentially the host exposed. A route will be connected to a service.
-Routes are always shown at the edge of the openshift cluster. 
+Routes are always shown at the edge of the Kubernetes cluster. 
 
 ![EdgeIngress](media/edge-ingress.png)
+
+#### Routes (OpenShift only)
+
+OpenShift routes are represented with the same notation as Ingresses.
 
 ## Storage
 Storage is used to indicate persistent volumes. The color of storage is blues and it’s shape is a bucket deployed as the following picture:
