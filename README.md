@@ -5,9 +5,10 @@ KDL is notation to describe Kubernetes deployments using Kubernetes API objects.
 
 ## Introduction
 The purpose of this document is to illustrate a notation for Kubernetes API objects. Kubernetes API objects can be used to describe how a solution will be deployed in Kubernetes.
-The idea is that if we can establish a common language to describe how applications are deployed this will simplify communications and speed up the app onboarding processes.
 
 To better explain the objective we can draw a parallel to UML, which had several languages to describe different aspects of an application architecture. A difference with UML is though that here we don’t try to create diagrams that can be used to generate API objects. So we have the opportunity to decide which pieces of information we want to show in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
+
+Here, you can download a [visio stencil](media/kdl.vssx) 
 
 ### Objectives
 
