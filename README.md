@@ -8,7 +8,7 @@ The purpose of this document is to illustrate a notation for Kubernetes API obje
 
 To better explain the objective we can draw a parallel to UML, which had several languages to describe different aspects of an application architecture. A difference with UML is though that here we don’t try to create diagrams that can be used to generate API objects. So we have the opportunity to decide which pieces of information we want to show in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
 
-Here, you can download a [visio stencil](media/kdl.vssx) 
+Here, you can download a [visio stencil](raw/master/media/kdl.vssx).
 
 ### Objectives
 
