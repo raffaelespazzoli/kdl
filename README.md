@@ -4,11 +4,14 @@ KDL is notation to describe Kubernetes deployments using Kubernetes API objects.
 
 
 ## Introduction
-The purpose of this document is to illustrate a notation for Kubernetes API objects. Kubernetes API objects can be used to describe how a solution will be deployed in Kubernetes.
+This blog posts illustrates a graphical notation for Kubernetes API objects: Kubernetes Deployment Language (in short KDL). Kubernetes API objects can be used to describe how a solution will be deployed in Kubernetes.
 
-To better explain the objective we can draw a parallel to UML, which had several languages to describe different aspects of an application architecture. A difference with UML is though that here we don’t try to create diagrams that can be used to generate API objects. So we have the opportunity to decide which pieces of information we want to show in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
+I think there is a need to describe and document how applications will be deployed in Kubernetes, especially when these applications are comprised of several components.
+I wanted to create a simple graphical convention to describe these deployments, so that these diagram could be easily whiteboard and the capture in a document.
 
-Here, you can download a [visio stencil](media/kdl.vssx).
+To better explain the objective we can draw a parallel to [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language), which had several graphical languages to describe different aspects of an application architecture. A difference with UML is, though, that here in KDL, we don’t have the objective to do forward or reverse engineering (i.e. we don’t convert the diagrams in yaml files or vice versa). This way we have the opportunity to manage how much of information we want to display in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
+
+Here, you can download a [visio stencil](media/kdl.vssx) for the proposed notation.
 
 ### Objectives
 
@@ -39,30 +42,31 @@ The Kubernetes cluster is simply represented as a rectangle:
 
 ![KubernetesCluster](media/kubernetes-template.png)
 
-All the other API object will live inside the cluster or at its edges.
+All the other API objects will live inside the cluster or at its edges.
 There should never be a need to call out individual nodes of an Kubernetes cluster.
 
-Some solutions will need to be deployed partly inside and partly outside the cluster. This notation does not prescribe how object outside the cluster are represented.
+You can represents components outside the cluster and how they connect to components inside the cluster. This graphical convention does not cover components outside the cluster.
 
 ## Compute 
 The compute objects are the most complex. In general they are represented by a rectangle with badges around it to show additional information. Here is a template:
 
 ![ComputeTemplate](media/compute-template.png)
 
-The central section of the picture represents a pod. In it we can find one or more containers. Both pod and containers should have a name.
+The central section of the picture represents a [pod](https://kubernetes.io/docs/concepts/workloads/pods/pod/). In it we can find one or more containers. Both pod and containers should have a name.
 
 On the left side of the pod we have additional compute information. The top badge specify the type of controller for this pod. Here are the types of controllers and their abbreviations:
 
 
 | Type of controller  | Abbreviation  |  
 |---|---|
-| Replication Controller  | RC  | 
-| Replica Set  | RS  |   
-| Deployment  | D  |  
-| DeploymentConfig (OpenShift only)  | DC  | 
-| DaemonSet  | DS  |  
-| StatefulSet  | SS  |  
-| Job | J |
+| [Replication Controller] (https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/)  | RC  | 
+| [Replica Set] (https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)  | RS  |   
+| [Deployment] (https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)  | D  |  
+| [DeploymentConfig](https://docs.openshift.com/container-platform/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations) (OpenShift only)  | DC  | 
+| [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)  | DS  |  
+| [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)  | SS  |  
+| [Job](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/) | J |
+| [Cron Job](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) | J |
 
 
 On the bottom we have the cardinality of the instances of that pod. This field assumes different meaning and format depending on the type of controller, here is a reference table:
@@ -76,6 +80,7 @@ On the bottom we have the cardinality of the instances of that pod. This field a
 | DaemonSet  | The node selector: storage-node=true  |
 | StatefulSet  | A number: 3  |
 | Job  | A number representing the degree of parallelism: 3  |
+| Cron Job  | A number representing the degree of parallelism: 3  |
 
 
 
@@ -86,18 +91,18 @@ At the top of the pod we have the exposed ports. You can use the little badges t
 These badges are in yellow because the represent networking config.
 You can connect each port with the container that is actually exposing that port if relevant. But in most cases this will not be necessary because most pods have just one container.
 
-At the bottom of the pod we have the attached volumes (excluding secrets and configmaps). The name of the volume should be displayed in the rectangle. In most cases these will be persistent volumes. If the volume type is not persistent volume it may be relevant to show it. Also, sometimes it may be important to also show the mount point. Here are examples of acceptable notation:
+At the bottom of the pod we have the [attached volumes](https://kubernetes.io/docs/concepts/storage/volumes/). The name of the volume should be displayed in the rectangle. In most cases these will be persistent volumes. If the volume type is not persistent volume it may be relevant to show it. Also, sometimes it may be important to also show the mount point. Here are examples of acceptable notation:
 
 ![VolumeExample](media/volume-example.png)
 
 
-On the right side of the pod with have volumes that pertain to the configuration of the pod: secrets and configmaps. As for the data volumes, the name of the volume should be indicated, usually it is important to distinguish between configmaps and secrets, so also the type of volume should be indicated and if necessary also the mount point can be shown. Here are some examples:
+On the right side of the pod with have volumes that pertain to the configuration of the pod: [secrets](https://kubernetes.io/docs/concepts/configuration/secret/) and [configmaps](https://kubernetes.io/docs/tasks/configure-pod-container/configmap/). As for the data volumes, the name of the volume should be indicated, usually it is important to distinguish between configmaps and secrets, so also the type of volume should be indicated and if necessary also the mount point can be shown. Here are some examples:
 
 ![SecretExample](media/secret-example.png)
 
 
 ## Networking
-There are two types of networking objects: services and ingresses.
+There are two types of networking objects: [services](https://kubernetes.io/docs/concepts/services-networking/service/) and [ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/) ([routes](https://docs.openshift.com/container-platform/latest/architecture/core_concepts/routes.html) in OpenShift).
 
 ### Services
 A service can be represented with an oval as in the following picture:
@@ -108,12 +113,12 @@ On the left side there is a badge representing the type of service. Here are the
 
 | Type  | Abbreviation  | 
 |---|---|
-| Cluster IP  | CIP  | 
-| Cluster IP, ClusterIP: None  |  HS a.k.a. Headless Service | 
-| Node Port  | NP  | 
-| LoadBalancer |  LB |
-| External Name  | EN  |
-| External IP (OpenShift only) |  EIP |  
+| [Cluster IP](https://kubernetes.io/docs/concepts/services-networking/service/#virtual-ips-and-service-proxies)  | CIP  | 
+| [Cluster IP, ClusterIP: None](https://kubernetes.io/docs/concepts/services-networking/service/#headless-services)  |  HS a.k.a. Headless Service | 
+| [Node Port](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)  | NP  | 
+| [LoadBalancer](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) |  LB |
+| [External Name](https://docs.openshift.com/container-platform/3.5/dev_guide/integrating_external_services.html#using-fqdn-2) (OpenShift only) | EN  |
+| [External IP](https://kubernetes.io/docs/concepts/services-networking/service/#external-ips) |  EIP |  
 
 
 At the top of the service there are the exposed ports. Same convention applies here as for the compute ports.
@@ -131,8 +136,8 @@ Ingresses can be indicated with a parallelogram as in the following picture:
 
 ![IngressTemplate](media/ingress-template.png)
 
-A route shows the route name and potentially the host exposed. A route will be connected to a service.
-Routes are always shown at the edge of the Kubernetes cluster. 
+An ingress shows the ingress name and optionally the host exposed. An ingress will be connected to a service (the same rules apply to OpenShift routes). 
+Ingresses are always shown at the edge of the openshift cluster.  
 
 ![EdgeIngress](media/edge-ingress.png)
 
