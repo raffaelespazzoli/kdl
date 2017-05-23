@@ -59,9 +59,9 @@ On the left side of the pod we have additional compute information. The top badg
 
 | Type of controller  | Abbreviation  |  
 |---|---|
-| [Replication Controller] (https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/)  | RC  | 
-| [Replica Set] (https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)  | RS  |   
-| [Deployment] (https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)  | D  |  
+| [Replication Controller](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/)  | RC  | 
+| [Replica Set](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)  | RS  |   
+| [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)  | D  |  
 | [DeploymentConfig](https://docs.openshift.com/container-platform/latest/architecture/core_concepts/deployments.html#deployments-and-deployment-configurations) (OpenShift only)  | DC  | 
 | [DaemonSet](https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/)  | DS  |  
 | [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)  | SS  |  
