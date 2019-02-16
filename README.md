@@ -7,7 +7,7 @@ KDL is notation to describe Kubernetes deployments using Kubernetes API objects.
 This blog posts illustrates a graphical notation for Kubernetes API objects: Kubernetes Deployment Language (in short KDL). Kubernetes API objects can be used to describe how a solution will be deployed in Kubernetes.
 
 I think there is a need to describe and document how applications will be deployed in Kubernetes, especially when these applications are comprised of several components.
-I wanted to create a simple graphical convention to describe these deployments, so that these diagram could be easily whiteboard and the capture in a document.
+I wanted to create a simple graphical convention to describe these deployments, so that these diagrams could be easily drawn on a whiteboard and or captured in a document.
 
 To better explain the objective we can draw a parallel to [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language), which had several graphical languages to describe different aspects of an application architecture. A difference with UML is, though, that here in KDL, we don’t have the objective to do forward or reverse engineering (i.e. we don’t convert the diagrams in yaml files or vice versa). This way we have the opportunity to manage how much of information we want to display in the diagrams. As a general rule of thumb we will only display architecturally relevant information.
 
@@ -137,7 +137,7 @@ Ingresses can be indicated with a parallelogram as in the following picture:
 ![IngressTemplate](media/ingress-template.png)
 
 An ingress shows the ingress name and optionally the host exposed. An ingress will be connected to a service (the same rules apply to OpenShift routes). 
-Ingresses are always shown at the edge of the openshift cluster.  
+Ingresses are always shown at the edge of the OpenShift cluster.  
 
 ![EdgeIngress](media/edge-ingress.png)
 
@@ -146,7 +146,7 @@ Ingresses are always shown at the edge of the openshift cluster.
 OpenShift routes are represented with the same notation as Ingresses.
 
 ## Storage
-Storage is used to indicate persistent volumes. The color of storage is blues and it’s shape is a bucket deployed as the following picture:
+Storage is used to indicate persistent volumes. The color of storage is blue and it’s shape is a bucket deployed as the following picture:
 
 ![StorageTemplate](media/storage-template.png)
 
